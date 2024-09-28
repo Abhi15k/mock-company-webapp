@@ -6,13 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;  // Keep only the necessary import
+import java.util.Collections; // Import statement added
 
 @Service
 public class SearchService {
 
-    // Since we're returning an empty list, the repository is no longer needed.
-    // You can safely remove this field.
     private final ProductItemRepository productItemRepository;
 
     @Autowired
@@ -20,11 +18,41 @@ public class SearchService {
         this.productItemRepository = productItemRepository;
     }
 
-    /**
-     * This method now returns an empty list to simulate a failure in tests.
-     */
     public Collection<ProductItem> search(String query) {
-        // Always return an empty list to break the tests.
-        return Collections.emptyList();
+        // Break the tests by always returning an empty list
+        return Collections.emptyList(); // Temporarily returning an empty list to break tests
+
+        /*
+         * // Uncomment this block to enable search functionality
+         * 
+         * Iterable<ProductItem> allItems = this.productItemRepository.findAll();
+         * List<ProductItem> itemList = new ArrayList<>();
+         * 
+         * boolean exactMatch = false;
+         * if (query.startsWith("\"") && query.endsWith("\"")) {
+         * exactMatch = true;
+         * query = query.substring(1, query.length() - 1);
+         * } else {
+         * query = query.toLowerCase();
+         * }
+         * 
+         * for (ProductItem item : allItems) {
+         * boolean nameMatches;
+         * boolean descMatches;
+         * if (exactMatch) {
+         * nameMatches = query.equals(item.getName());
+         * descMatches = query.equals(item.getDescription());
+         * } else {
+         * nameMatches = item.getName().toLowerCase().contains(query);
+         * descMatches = item.getDescription().toLowerCase().contains(query);
+         * }
+         * 
+         * if (nameMatches || descMatches) {
+         * itemList.add(item);
+         * }
+         * }
+         * 
+         * return itemList; // Return the actual search results when enabled
+         */
     }
 }
